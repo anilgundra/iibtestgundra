@@ -1,0 +1,39 @@
+
+DECLARE Int_Var EXTERNAL INTEGER;
+CREATE COMPUTE MODULE xml_json_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		
+		
+		DECLARE RecordCount INTEGER ;
+		DECLARE i INTEGER 1;
+		
+		SET OutputRoot.XMLNSC.DATA = Int_Var;
+--		SET RecordCount = CARDINALITY(InputRoot.XMLNSC.xml.bene[]);
+--		WHILE i <= RecordCount DO
+--			SET OutputRoot.JSON.Data.xml.bene[i].fn = InputRoot.XMLNSC.xml.bene[i].fn;
+--			SET OutputRoot.JSON.Data.xml.bene[i].in = InputRoot.XMLNSC.xml.bene[i].in;
+--			SET i = i + 1;
+--		END WHILE;
+		
+		
+		
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;
